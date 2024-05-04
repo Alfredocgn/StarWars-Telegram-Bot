@@ -11,7 +11,7 @@ import platform
 import requests
 
 
-TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
+TOKEN = ''
 
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
