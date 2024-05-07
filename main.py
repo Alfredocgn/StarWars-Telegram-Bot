@@ -11,10 +11,11 @@ import platform
 import requests
 
 
-TOKEN = ''
+TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
 
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
+spam_times = {}
 
 def get_films(id):
   complete_url = f'{BASE_URL}films/{id}'
@@ -97,6 +98,18 @@ def get_startships(id):
       return 'Ship not found'
   else:
     return 'Error fetching data'
+
+def handle_spam(user_id):
+  if user_id in spam_times:
+    spam_time = spam_times[user_id]
+    elapsed_time = time.time() - spam_time
+
+    if elapsed_time < 60:
+      return True
+    else :
+      del spam_times[user_id]
+  return False
+
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
@@ -207,6 +220,10 @@ def inline_buttons_action(call):
   cid = call.from_user.id
   mid = call.message.id
   register = []
+  if handle_spam(cid):
+    bot.answer_callback_query(call.id,"Spam! Wait a minute!",show_alert=True)
+    return
+  spam_times[cid] = time.time()
 
   if call.data == 'close':
     bot.delete_message(cid,mid)
@@ -233,7 +250,9 @@ def inline_buttons_action(call):
         file.write(f'Username:@{call.from_user.username}\n')
         file.close()
     star_wars_films = get_films(movie_id)
+    bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
     bot.send_photo(cid,star_wars_films[1][movie_id - 1],caption=star_wars_films[0])
+    bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
   elif call.data in ['luke','C3P0','R2D2','leia','vader','kenobi']:
     character_name_to_id = {'luke': 1, 'C3P0': 2, 'R2D2': 3,  'vader': 4,'leia': 5, 'kenobi': 10}
 
@@ -252,7 +271,9 @@ def inline_buttons_action(call):
       character_id = 6
     else :
       character_id
+    bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
     bot.send_photo(cid,character_info[1][character_id-1],caption=character_info[0])
+    bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
 
   elif call.data in ['corv','destroyer','landing','star','falcon','y-wing']:
     ship_name_to_id = {'corv':2,'destroyer':3,'landing':5,'star':9,'falcon':10,'y-wing':11}
@@ -268,10 +289,12 @@ def inline_buttons_action(call):
         file.write(f'Username:@{call.from_user.username}\n')
         file.close()
     ships_info = get_startships(ship_id)
+    bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
     bot.send_photo(cid,ships_info[1][ship_index],caption=ships_info[0])
+    bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
 
 @bot.message_handler(content_types=['text', 'audio', 'document', 'photo', 'sticker', 'video', 'video_note', 'voice', 'location', 'contact'])
-def bot_mensajes_texto(message):
+def bot_text_msg(message):
   if message.text and message.text.startswith("/"):
       bot.send_message(message.chat.id, "Command not available")
   else:
@@ -284,6 +307,7 @@ def bot_mensajes_texto(message):
 if __name__ == '__main__':
   print('bot running')
   bot.infinity_polling()
+  
 
 
 

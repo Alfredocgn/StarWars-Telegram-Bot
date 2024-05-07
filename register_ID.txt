@@ -678,3 +678,239 @@ Username: @Alfredocgn
 Close button
 UserID:1487601186
 Username:@Alfredocgn
+06/05/2024 20:17:50
+Command:/start
+UserID: 6444289599
+Username: @Geg1968
+06/05/2024 20:18:07
+Command:/characters
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:18:15
+Button: luke
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:19:15
+Command:/start
+UserID: 932518439
+Username: @Program_Ar
+06/05/2024 20:19:24
+Command:/characters
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:19:30
+Button: C3P0
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:19:41
+Command:/films
+UserID: 932518439
+Username: @Program_Ar
+06/05/2024 20:19:44
+Close button
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:20:04
+Close button
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:20:12
+Close button
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:20:15
+Command:/characters
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:20:18
+Close button
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:20:30
+Command:/start
+UserID: 932518439
+Username: @Program_Ar
+06/05/2024 20:20:35
+Command:/films
+UserID: 932518439
+Username: @Program_Ar
+06/05/2024 20:20:42
+Close button
+UserID:932518439
+Username:@Program_Ar
+06/05/2024 20:21:01
+Button: C3P0
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:21:53
+Command:/films
+UserID: 6444289599
+Username: @Geg1968
+06/05/2024 20:21:56
+Close button
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:21:56
+Close button
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:24:13
+Close button
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:24:29
+Close button
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:24:57
+Command:/characters
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:25:00
+Button: corv
+UserID:6444289599
+Username:@Geg1968
+06/05/2024 20:34:19
+Close button
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 20:34:24
+Command:/films
+UserID: 1487601186
+Username: @Alfredocgn
+06/05/2024 20:34:27
+Close button
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 21:41:46
+Command:/start
+UserID: 1487601186
+Username: @Alfredocgn
+06/05/2024 21:41:49
+Command:/films
+UserID: 1487601186
+Username: @Alfredocgn
+06/05/2024 21:41:53
+Close button
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 21:43:11
+Command:/characters
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 21:43:14
+Button: luke
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 21:43:31
+Command:/characters
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 21:43:34
+Button: destroyer
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:31:47
+Command:/start
+UserID: 1590593425
+Username: @Ivetteojeda
+06/05/2024 22:32:08
+Command:/films
+UserID: 1590593425
+Username: @Ivetteojeda
+06/05/2024 22:32:17
+Command:/characters
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:32:19
+Button: luke
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:32:28
+Button: leia
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:32:37
+Button: vader
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:32:56
+Close button
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:33:01
+Close button
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:33:03
+Command:/characters
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:33:07
+Button: C3P0
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:33:47
+Command:/characters
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:33:54
+Button: kenobi
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:34:03
+Button: R2D2
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:34:26
+Command:/characters
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:34:29
+Button: star
+UserID:1590593425
+Username:@Ivetteojeda
+06/05/2024 22:42:49
+Command:/characters
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:42:52
+Button: corv
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:42:57
+Command:/characters
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:44:29
+Button: destroyer
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:44:33
+Command:/characters
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:44:40
+Command:/characters
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:49:19
+Button: corv
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:49:24
+Command:/characters
+UserID:1487601186
+Username:@Alfredocgn
+06/05/2024 22:50:47
+Command:/start
+UserID: 2037110944
+Username: @Macamazzeo
+06/05/2024 22:51:01
+Command:/characters
+UserID:2037110944
+Username:@Macamazzeo
+06/05/2024 22:51:08
+Button: vader
+UserID:2037110944
+Username:@Macamazzeo
