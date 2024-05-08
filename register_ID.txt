@@ -914,3 +914,15 @@ Username:@Macamazzeo
 Button: vader
 UserID:2037110944
 Username:@Macamazzeo
+08/05/2024 12:08:13
+Command:/start
+UserID: 1487601186
+Username: @Alfredocgn
+08/05/2024 13:12:53
+Command:/start
+UserID: 1487601186
+Username: @Alfredocgn
+08/05/2024 13:18:48
+Command:/start
+UserID: 1487601186
+Username: @Alfredocgn

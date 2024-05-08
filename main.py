@@ -9,6 +9,7 @@ from telebot.types import ReplyKeyboardRemove
 import logging
 import platform
 import requests
+from jinja2 import Template
 
 
 TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
@@ -16,6 +17,32 @@ TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
 spam_times = {}
+
+
+template_html = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Commands</title>
+</head>
+<body>
+    <h1>Register Commands</h1>
+    <ul>
+    {% for entry in entries %}
+        <li>{{ entry.date }} - {{ entry.command }} - {{ entry.user_id }} - {{ entry.username }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
+"""
+
+template = Template(template_html)
+
+def generate_html(entries):
+  return template.render(entries = entries)
 
 def get_films(id):
   complete_url = f'{BASE_URL}films/{id}'
@@ -110,10 +137,50 @@ def handle_spam(user_id):
       del spam_times[user_id]
   return False
 
+def register_command(user_id, command, username):
+    entry = {
+        'date': time.strftime("%d/%m/%Y %H:%M:%S", time.localtime()),
+        'command': command,
+        'user_id': user_id,
+        'username': username
+    }
+    
+    # Renderizar HTML con la nueva entrada
+    with open('register_commands.html', 'a') as file:
+        rendered_html = template.render(entries=get_entries_from_file() + [entry])
+        file.write(rendered_html)
+
+
+def get_entries_from_file():
+    # Leer las entradas del archivo HTML
+    entries = []
+    with open('register_commands.html', 'r') as file:
+        rendered_html = file.read()
+        # No necesitamos parsear HTML aquí, solo necesitamos extraer la información de las entradas
+        # Podemos hacer esto más eficientemente si estructuramos las entradas de manera consistente, pero por ahora simplemente usaremos una búsqueda simple
+        start_tag = '<li>'
+        end_tag = '</li>'
+        while start_tag in rendered_html and end_tag in rendered_html:
+            start_index = rendered_html.find(start_tag)
+            end_index = rendered_html.find(end_tag)
+            entry_html = rendered_html[start_index:end_index + len(end_tag)]
+            # Ahora extraemos la información de la entrada de HTML
+            parts = entry_html.split(' - ')
+            if len(parts) == 4:
+                entry = {
+                    'date': parts[0][len(start_tag):],
+                    'command': parts[1],
+                    'user_id': parts[2],
+                    'username': parts[3]
+                }
+                entries.append(entry)
+            rendered_html = rendered_html[end_index + len(end_tag):]
+    return entries
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
   bot.send_message(message.chat.id, f"Hello {message.from_user.first_name},Welcome to the Star Wars Bot")
+  register_command(message.chat.id, "/start", message.from_user.username)
   if message.chat.id == message.chat.id:
     register = []
     register.append(str(message.chat.id)),
