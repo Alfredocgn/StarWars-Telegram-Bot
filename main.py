@@ -9,7 +9,8 @@ from telebot.types import ReplyKeyboardRemove
 import logging
 import platform
 import requests
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
+import os
 
 
 TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
@@ -17,32 +18,12 @@ TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
 spam_times = {}
+dir_path = os.path.dirname(os.path.realpath(__file__))
+env = Environment(loader=FileSystemLoader(dir_path))
+
+template = env.get_template('register_commands.html')
 
 
-template_html = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Commands</title>
-</head>
-<body>
-    <h1>Register Commands</h1>
-    <ul>
-    {% for entry in entries %}
-        <li>{{ entry.date }} - {{ entry.command }} - {{ entry.user_id }} - {{ entry.username }}</li>
-    {% endfor %}
-    </ul>
-</body>
-</html>
-"""
-
-template = Template(template_html)
-
-def generate_html(entries):
-  return template.render(entries = entries)
 
 def get_films(id):
   complete_url = f'{BASE_URL}films/{id}'
@@ -145,26 +126,29 @@ def register_command(user_id, command, username):
         'username': username
     }
     
-    # Renderizar HTML con la nueva entrada
-    with open('register_commands.html', 'a') as file:
-        rendered_html = template.render(entries=get_entries_from_file() + [entry])
-        file.write(rendered_html)
+
+    with open('register_commands.html', 'r') as file:
+        content = file.read()
+    
+
+    new_entry = f"        <tr>\n                    <td>{entry['date']}</td>\n                    <td>{entry['command']}</td>\n                    <td>{entry['user_id']}</td>\n                    <td>@{entry['username']}</td>\n                </tr>\n"
+    
+    content = content.replace('</tbody>', f"{new_entry}</tbody>")
+    
+    with open('register_commands.html', 'w') as file:
+        file.write(content)
 
 
 def get_entries_from_file():
-    # Leer las entradas del archivo HTML
     entries = []
     with open('register_commands.html', 'r') as file:
         rendered_html = file.read()
-        # No necesitamos parsear HTML aquí, solo necesitamos extraer la información de las entradas
-        # Podemos hacer esto más eficientemente si estructuramos las entradas de manera consistente, pero por ahora simplemente usaremos una búsqueda simple
         start_tag = '<li>'
         end_tag = '</li>'
         while start_tag in rendered_html and end_tag in rendered_html:
             start_index = rendered_html.find(start_tag)
             end_index = rendered_html.find(end_tag)
             entry_html = rendered_html[start_index:end_index + len(end_tag)]
-            # Ahora extraemos la información de la entrada de HTML
             parts = entry_html.split(' - ')
             if len(parts) == 4:
                 entry = {
@@ -179,18 +163,10 @@ def get_entries_from_file():
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
+
   bot.send_message(message.chat.id, f"Hello {message.from_user.first_name},Welcome to the Star Wars Bot")
-  register_command(message.chat.id, "/start", message.from_user.username)
   if message.chat.id == message.chat.id:
-    register = []
-    register.append(str(message.chat.id)),
-    file = open('register_ID.txt','a',encoding = 'utf-8')
-  for i in register:
-    file.write(time.strftime("%d/%m/%Y %H:%M:%S",time.localtime())+ '\n')
-    file.write(f'Command:/start\n')
-    file.write(f'UserID: {i}\n')
-    file.write(f'Username: @{message.from_user.username}\n')
-    file.close()
+    register_command(message.chat.id, "/start", message.from_user.username)
   bot.send_chat_action(message.chat.id,'upload_photo')
   url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Star_Wars_Logo.svg/2560px-Star_Wars_Logo.svg.png'
   bot.send_photo(message.chat.id, url)
@@ -205,15 +181,7 @@ def cmd_start(message):
 @bot.message_handler(commands=['films'])
 def  cmd_films(message):
   if message.chat.id == message.chat.id:
-    register = []
-    register.append(str(message.chat.id))
-    file = open('register_ID.txt','a',encoding='utf-8')
-  for i in register:
-    file.write(time.strftime("%d/%m/%Y %H:%M:%S",time.localtime()) + '\n')
-    file.write(f'Command:/films\n')
-    file.write(f'UserID: {i}\n')
-    file.write(f'Username: @{message.from_user.username}\n')
-    file.close()
+    register_command(message.chat.id, "/films", message.from_user.username)
   bot.send_chat_action(message.chat.id,'typing')
 
   markup = InlineKeyboardMarkup(row_width=1)
@@ -232,15 +200,7 @@ def  cmd_films(message):
 @bot.message_handler(commands=['characters'])
 def cmd_characters(message):
   if message.chat.id == message.chat.id:
-    register = []
-    register.append(str(message.chat.id))
-    file = open('register_ID.txt','a',encoding='utf-8')
-  for i in register:
-    file.write(time.strftime("%d/%m/%Y %H:%M:%S",time.localtime()) + '\n')
-    file.write(f'Command:/characters\n')
-    file.write(f'UserID:{i}\n')
-    file.write(f'Username:@{message.from_user.username}\n')
-    file.close()
+    register_command(message.chat.id, "/characters", message.from_user.username)
   bot.send_chat_action(message.chat.id,'typing')
 
   markup = InlineKeyboardMarkup(row_width=1)
@@ -258,15 +218,7 @@ def cmd_characters(message):
 @bot.message_handler(commands=['ships'])
 def cmd_ships(message):
   if message.chat.id == message.chat.id:
-    register = []
-    register.append(str(message.chat.id))
-    file = open('register_ID.txt','a',encoding='utf-8')
-  for i in register:
-    file.write(time.strftime("%d/%m/%Y %H:%M:%S",time.localtime()) + '\n')
-    file.write(f'Command:/characters\n')
-    file.write(f'UserID:{i}\n')
-    file.write(f'Username:@{message.from_user.username}\n')
-    file.close()
+    register_command(message.chat.id, "/ships", message.from_user.username)
   bot.send_chat_action(message.chat.id,'typing')
 
   markup = InlineKeyboardMarkup(row_width=1)
@@ -279,14 +231,14 @@ def cmd_ships(message):
   btn_close = InlineKeyboardButton('Close',callback_data='close')
 
   markup.add(btn_corvette,btn_destroyer,btn_craft,btn_star,btn_falcon,btn_y_wing,btn_close)
-  bot.send_message(message.chat.id,text='Select a Character',parse_mode='MarkdownV2',reply_markup=markup)
+  bot.send_message(message.chat.id,text='Select a Ship',parse_mode='MarkdownV2',reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda x:True)
 def inline_buttons_action(call):
   cid = call.from_user.id
   mid = call.message.id
-  register = []
+
   if handle_spam(cid):
     bot.answer_callback_query(call.id,"Spam! Wait a minute!",show_alert=True)
     return
@@ -294,28 +246,13 @@ def inline_buttons_action(call):
 
   if call.data == 'close':
     bot.delete_message(cid,mid)
-
-    register.append(str(cid))
-    file = open('register_ID.txt','a',encoding='utf-8')
-    for i in register:
-      file.write(time.strftime("%d/%m/%Y %H:%M:%S", time.localtime()) + "\n")
-      file.write('Close button\n')
-      file.write(f'UserID:{i}\n')
-      file.write(f'Username:@{call.from_user.username}\n')
-      file.close()
+    register_command(cid, "Close Button", call.from_user.username)
   elif call.data.startswith('e_'):
     movie_episode_to_id = {'e_IV': 1, 'e_V': 2, 'e_VI': 3, 'e_I': 4, 'e_II': 5, 'e_III': 6}
     movie_id = movie_episode_to_id[call.data]
 
     if cid == cid:
-      register.append(str(cid))
-      file = open('register_ID.txt','a',encoding='utf-8')
-      for i in register:
-        file.write(time.strftime("%d/%m/%Y %H:%M:%S", time.localtime()) + "\n")
-        file.write('Close button\n')
-        file.write(f'UserID:{i}\n')
-        file.write(f'Username:@{call.from_user.username}\n')
-        file.close()
+      register_command(cid, f'Button Movie Episode: {call.data}', call.from_user.username)
     star_wars_films = get_films(movie_id)
     bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
     bot.send_photo(cid,star_wars_films[1][movie_id - 1],caption=star_wars_films[0])
@@ -325,14 +262,7 @@ def inline_buttons_action(call):
 
     character_id = character_name_to_id[call.data]
     if cid == cid:
-      register.append(str(cid))
-      file = open('register_ID.txt', 'a', encoding='utf-8')
-      for i in register:
-        file.write(time.strftime("%d/%m/%Y %H:%M:%S", time.localtime()) + "\n")
-        file.write(f'Button: {call.data}\n')
-        file.write(f'UserID:{i}\n')
-        file.write(f'Username:@{call.from_user.username}\n')
-        file.close()
+      register_command(cid, f'Character Button: {call.data}', call.from_user.username)
     character_info = get_characters(character_id)
     if character_id == 10:
       character_id = 6
@@ -347,14 +277,7 @@ def inline_buttons_action(call):
     ship_id = ship_name_to_id[call.data]
     ship_index = list(ship_name_to_id.values()).index(ship_id)
     if cid == cid:
-      register.append(str(cid))
-      file = open('register_ID.txt', 'a', encoding='utf-8')
-      for i in register:
-        file.write(time.strftime("%d/%m/%Y %H:%M:%S", time.localtime()) + "\n")
-        file.write(f'Button: {call.data}\n')
-        file.write(f'UserID:{i}\n')
-        file.write(f'Username:@{call.from_user.username}\n')
-        file.close()
+      register_command(cid, f'Ship Button: {call.data}', call.from_user.username)
     ships_info = get_startships(ship_id)
     bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
     bot.send_photo(cid,ships_info[1][ship_index],caption=ships_info[0])
