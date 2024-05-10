@@ -13,11 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 import os
 
 
-TOKEN = ''
-GITHUB_TOKEN = ''
-headers = {
-  'Authorization': f'Bearer {GITHUB_TOKEN}'
-}
+
 
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
