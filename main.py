@@ -11,9 +11,15 @@ import platform
 import requests
 from jinja2 import Environment, FileSystemLoader
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-
+headers = {
+  'Authorization': f'Bearer {GITHUB_TOKEN}'
+}
 
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
