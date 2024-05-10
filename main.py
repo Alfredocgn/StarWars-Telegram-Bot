@@ -14,9 +14,14 @@ import os
 
 
 TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
+GITHUB_TOKEN = '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'
+headers = {
+  'Authorization': f'Bearer {GITHUB_TOKEN}'
+}
 
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
+GITHUB_URL = 'https://github.com/Alfredocgn/Starwars-DB/blob/main/data'
 spam_times = {}
 dir_path = os.path.dirname(os.path.realpath(__file__))
 env = Environment(loader=FileSystemLoader(dir_path))
@@ -25,9 +30,41 @@ template = env.get_template('register_commands.html')
 
 
 
+def get_movies(id):
+  complete_url = f'{GITHUB_URL}/movies.json'
+  response = requests.get('https://raw.githubusercontent.com/Alfredocgn/Starwars-DB/main/data/movies.json?token=GHSAT0AAAAAACMI7LHY5Y3JHAFQTDKDJSRCZR5PGIQ',headers=headers)
+
+  if response.status_code == 200:
+    data = response.json()
+    filtered_movie = [movie for movie in data if movie['episode'] == id]
+
+    if filtered_movie:
+      movie_info = []
+      for movie in filtered_movie:
+          poster_url = f"https://github.com/Alfredocgn/Starwars-DB/blob/40c59582b82281febf458b3b3298cf1c5f85bfa0/images/movies/Episode-{1}.jpg"
+          title = movie['title']
+          director =  movie['director']
+          # poster_url = movie['poster_url']
+          release_date = movie['release_date']
+          episode = movie['episode']
+          movie_info.append(f'{title} episode {episode}\n Was released in {release_date} \n It was directed by {director}')
+          movie_info.append(poster_url)
+        
+      return movie_info
+    else:
+      return 'Movie not found'
+  else:
+    return 'Error fetching data'
+
+    
+print(get_movies(1))
+
+
+
 def get_films(id):
   complete_url = f'{BASE_URL}films/{id}'
   response = requests.get(complete_url)
+  
   if response.status_code == 200:
     data = response.json()
     movie_info =[]
@@ -46,7 +83,7 @@ def get_films(id):
                       'https://www.themoviedb.org/t/p/original/hHg49exUKyuZ2xUFAhVflUrBnvt.jpg']
       movie_info.append(f'{movie_name} {movie_episode}\n Was released in {movie_date} \n It was directed by {movie_director}')
       movie_info.append(movie_poster)
-      return movie_info
+      return movie_info 
     else:
       return 'Movie not found'
   else :
@@ -253,9 +290,9 @@ def inline_buttons_action(call):
 
     if cid == cid:
       register_command(cid, f'Button Movie Episode: {call.data}', call.from_user.username)
-    star_wars_films = get_films(movie_id)
+    star_wars_films = get_movies(movie_id)
     bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
-    bot.send_photo(cid,star_wars_films[1][movie_id - 1],caption=star_wars_films[0])
+    bot.send_photo(cid,star_wars_films[1],caption=star_wars_films[0])
     bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
   elif call.data in ['luke','C3P0','R2D2','leia','vader','kenobi']:
     character_name_to_id = {'luke': 1, 'C3P0': 2, 'R2D2': 3,  'vader': 4,'leia': 5, 'kenobi': 10}
