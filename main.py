@@ -13,8 +13,8 @@ from jinja2 import Environment, FileSystemLoader
 import os
 
 
-TOKEN = '7187157539:AAHjH_l7wEy12imMgUSbLkFF2WJAP7GckgA'
-GITHUB_TOKEN = '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'
+TOKEN = ''
+GITHUB_TOKEN = ''
 headers = {
   'Authorization': f'Bearer {GITHUB_TOKEN}'
 }
