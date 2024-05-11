@@ -15,51 +15,47 @@ from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-headers = {
-  'Authorization': f'Bearer {GITHUB_TOKEN}'
-}
+MOVIES_TOKEN = os.getenv('MOVIES_TOKEN')
+
 
 bot = telebot.TeleBot(TOKEN)
 BASE_URL = 'https://swapi.dev/api/'
-GITHUB_URL = 'https://github.com/Alfredocgn/Starwars-DB/blob/main/data'
 spam_times = {}
 dir_path = os.path.dirname(os.path.realpath(__file__))
 env = Environment(loader=FileSystemLoader(dir_path))
 
-template = env.get_template('register_commands.html')
+template = env.get_template('register_commands.html') 
 
 
 
-def get_movies(id):
-  complete_url = f'{GITHUB_URL}/movies.json'
-  response = requests.get('https://raw.githubusercontent.com/Alfredocgn/Starwars-DB/main/data/movies.json?token=GHSAT0AAAAAACMI7LHY5Y3JHAFQTDKDJSRCZR5PGIQ',headers=headers)
+# def get_movies(id):
+#   response = requests.get(f'https://raw.githubusercontent.com/Alfredocgn/Starwars-DB/main/data/movies.json?token={MOVIES_TOKEN}')
 
-  if response.status_code == 200:
-    data = response.json()
-    filtered_movie = [movie for movie in data if movie['episode'] == id]
+#   if response.status_code == 200:
+#     data = response.json()
+#     filtered_movie = [movie for movie in data if movie['episode'] == id]
 
-    if filtered_movie:
-      movie_info = []
-      for movie in filtered_movie:
-          poster_url = f"https://github.com/Alfredocgn/Starwars-DB/blob/40c59582b82281febf458b3b3298cf1c5f85bfa0/images/movies/Episode-{1}.jpg"
-          title = movie['title']
-          director =  movie['director']
-          # poster_url = movie['poster_url']
-          release_date = movie['release_date']
-          episode = movie['episode']
-          movie_info.append(f'{title} episode {episode}\n Was released in {release_date} \n It was directed by {director}')
-          movie_info.append(poster_url)
+#     if filtered_movie:
+#       movie_info = []
+#       for movie in filtered_movie:
+#           title = movie['title']
+#           director =  movie['director']
+#           poster_url = movie['poster_url']
+#           poster_url = ''
+#           release_date = movie['release_date']
+#           episode = movie['episode']
+#           movie_info.append(f'{title} episode {episode}\n Was released in {release_date} \n It was directed by {director}')
+#           movie_info.append(poster_url)
         
-      return movie_info
-    else:
-      return 'Movie not found'
-  else:
-    return 'Error fetching data'
+#       return movie_info
+#     else:
+#       return 'Movie not found'
+#   else:
+#     return 'Error fetching data'
 
-    
-print(get_movies(1))
+# print(get_movies(2))
+
 
 
 
@@ -151,7 +147,7 @@ def handle_spam(user_id):
     spam_time = spam_times[user_id]
     elapsed_time = time.time() - spam_time
 
-    if elapsed_time < 60:
+    if elapsed_time < 3:
       return True
     else :
       del spam_times[user_id]
@@ -292,9 +288,9 @@ def inline_buttons_action(call):
 
     if cid == cid:
       register_command(cid, f'Button Movie Episode: {call.data}', call.from_user.username)
-    star_wars_films = get_movies(movie_id)
+    star_wars_films = get_films(movie_id)
     bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
-    bot.send_photo(cid,star_wars_films[1],caption=star_wars_films[0])
+    bot.send_photo(cid,star_wars_films[1][movie_id-1],caption=star_wars_films[0])
     bot.send_sticker(cid,'https://t.me/Java_CodificAR/26')
   elif call.data in ['luke','C3P0','R2D2','leia','vader','kenobi']:
     character_name_to_id = {'luke': 1, 'C3P0': 2, 'R2D2': 3,  'vader': 4,'leia': 5, 'kenobi': 10}
